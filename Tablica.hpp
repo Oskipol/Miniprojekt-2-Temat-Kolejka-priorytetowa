@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-class Kopiec : public KolejkaBaza {
+class TablicaPosortowana : public KolejkaBaza {
     struct Element {
         int wartosc;
         int priorytet;
@@ -13,14 +13,12 @@ class Kopiec : public KolejkaBaza {
     int rozmiar;
     int pojemnosc;
 
-    void rozszerz();  // podwaja pojemnosc gdy pelna
-    void zamien(int a, int b); // zamienia elementy miejscami
-    void wGore(int i);   // przesuwa element w gore (po wstaw)
-    void wDol(int i);      // przesuwa element w dol (po usunMax)
+    void rozszerz();
 
 public:
-    Kopiec();
-    ~Kopiec();
+    TablicaPosortowana();
+    ~TablicaPosortowana();
+
     int  size() override;
     void wstaw(int wartosc, int priorytet) override;
     int  usunMax() override;
