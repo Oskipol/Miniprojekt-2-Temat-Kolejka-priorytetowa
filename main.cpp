@@ -45,9 +45,9 @@ void benchmark() {
     cout << "\nN\t";
     for (int s = 0; s < 2; s++)
         cout << nazwy[s] << "_insert\t"
-             << nazwy[s] << "_extractMax\t"
              << nazwy[s] << "_findMax\t"
-             << nazwy[s] << "_modifyKey\t";
+             << nazwy[s] << "_modifyKey\t"
+             << nazwy[s] << "_extractMax\t";
     cout << "\n";
 
     for (int s = 0; s < ILE; s++) {
@@ -69,7 +69,6 @@ void benchmark() {
             for (int i = 0; i < 2; i++) str[i]->wypelnij(wartosci, priorytety, N);
 
             // Dla modifyKey potrzebujemy wartosci ktore sa w strukturze
-            // Bierzemy OPS losowych wartosci z tablicy zrodlowej
             int* doModify = new int[OPS];
             for (int i = 0; i < OPS; i++)
                 doModify[i] = wartosci[losujIndeks(N)];
@@ -85,20 +84,15 @@ void benchmark() {
             for (int i = 0; i < 2; i++) {
 
                 // insert — OPS nowych elementow
+                str[i]->wypelnij(wartosci, priorytety, N);
                 t0 = nanos();
                 for (int j = 0; j < OPS; j++)
                     str[i]->wstaw(losujWartosc(), losujPriorytet(MAX_PRIORYTET));
                 t1 = nanos();
                 czasy[i][0] += t1 - t0;
 
-                // extractMax
-                t0 = nanos();
-                for (int j = 0; j < OPS; j++)
-                    str[i]->usunMax();
-                t1 = nanos();
-                czasy[i][1] += t1 - t0;
-
                 // findMax — OPS zapytan na tej samej strukturze
+                str[i]->wypelnij(wartosci, priorytety, N);
                 t0 = nanos();
                 for (int j = 0; j < OPS; j++)
                     str[i]->znajdzMax();
@@ -106,14 +100,24 @@ void benchmark() {
                 czasy[i][2] += t1 - t0;
 
                 // modifyKey — zmiana priorytetu OPS losowych elementow
+                str[i]->wypelnij(wartosci, priorytety, N);
                 t0 = nanos();
                 for (int j = 0; j < OPS; j++)
                     str[i]->modyfikuj(doModify[j], losujPriorytet(MAX_PRIORYTET));
                 t1 = nanos();
                 czasy[i][3] += t1 - t0;
+                // extractMax
+                str[i]->wypelnij(wartosci, priorytety, N);
+                t0 = nanos();
+                for (int j = 0; j < OPS; j++)
+                    str[i]->usunMax();
+                t1 = nanos();
+                czasy[i][1] += t1 - t0;
             }
 
             delete[] doModify;
+            delete[] priorytety;
+            delete[] wartosci;
         }
 
         cout << N << "\t";
