@@ -76,8 +76,6 @@ void benchmark() {
             // Dla wyszukiwania (findMax) — generujemy liste OPS zapytan
             // (findMax zawsze zwraca ten sam element wiec mierzymy sam koszt operacji)
 
-            delete[] wartosci;
-            delete[] priorytety;
 
             long long t0, t1;
 
